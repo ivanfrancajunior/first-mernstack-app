@@ -19,6 +19,7 @@ const create = async (req, res) => {
     user: {id:user._id,name, username, email, avatar, background},
   });
 }
+
 const findAll = async(req,res) => {
  const users = await userService.findAllService();
 
@@ -27,6 +28,7 @@ const findAll = async(req,res) => {
  }
  res.send(users)
 }
+
 const findById = async(req,res) =>{
   const id = req.params.id; 
 
@@ -43,4 +45,38 @@ const findById = async(req,res) =>{
   res.send(user)
 }
 
-module.exports = { create, findAll, findById };
+const update = async (req,res) =>{
+  const {name,username,email,password,avatar,background} = req.body;
+  
+  if(!name && !username && !email && !avatar && !background && !password){
+     res.status(400).send({"message":"Submit at least one fields for update"})
+  }
+  const id = req.params.id; 
+
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    return res.status(400).send({message:"Invalid ID"})
+  }
+  const user = await userService.findByIdService(id);
+
+  if(!user) {
+    return res.status(400).send({message:"User not Found"})
+  }
+
+  await userService.updateService(
+    id,
+    name,
+    username,
+    email,
+    password,
+    avatar,
+    background
+  );
+
+  res.send({message: "User succesfully updateed"})
+
+
+
+} 
+
+
+module.exports = { create, findAll, findById, update };
