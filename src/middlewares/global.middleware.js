@@ -19,8 +19,11 @@ const validUser = async (req,res,next) =>{
 
     if(!user) {
         return res.status(400).send({message:"User not Found"})
-      }
+    }
 
+
+    req.id = id;
+    req.user = user
     next()  
 
 }
