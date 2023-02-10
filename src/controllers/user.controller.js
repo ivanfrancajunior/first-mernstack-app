@@ -33,17 +33,18 @@ const findAll = async(req,res) => {
 } 
 }
 
-const findById = async(req,res) =>{
-  try {const {id, user} = req 
+const findById = async (req, res) => {
+  try {
+    const user = req.user;
 
-  res.send(user)
-}catch(error){
-  res.status(500).send({message: err.message})
-} 
-}
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ message: err.message });
+  }
+};
 
 const update = async (req,res) =>{
-  try {const {name,username,email,password,avatar,background} = req.body;
+  try{const {name,username,email,password,avatar,background} = req.body;
   const {id, user} = req 
   
   if(!name && !username && !email && !avatar && !background && !password){
@@ -59,8 +60,7 @@ const update = async (req,res) =>{
     password,
     avatar,
     background
-  );} 
-  catch(error){
+  );} catch(error){
     res.status(500).send({message: err.message})
   } 
 
