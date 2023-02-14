@@ -22,9 +22,21 @@ const create = async (req,res) => {
     }
 }
 
-const findAll =()=>{
-    const news = []; 
+const findAll = async () => {
+    try {
+        const news = await findAllService();
+      if(news.length === 0){
+
+       return res.status(400).send({
+        message:"There are not registred users"})
+    }
     res.send(news);
-}
+        
+    } catch (error) {
+        res.status(500).send({
+        message: err.message})
+    }
+       
+};
 
 module.exports = {create, findAll}
