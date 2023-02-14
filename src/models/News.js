@@ -19,7 +19,7 @@ const NewsSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   likes: {
@@ -34,4 +34,4 @@ const NewsSchema = new mongoose.Schema({
 
 const News = mongoose.model("News", NewsSchema);
 
-export default News;
+module.exports = News;
