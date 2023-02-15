@@ -1,8 +1,10 @@
 const {createService, findAllService} = require('../services/news.service')
-const {ObjectId} = require('mongoose')
+
 
 const create = async (req,res) => {
     try {
+        
+
         const {title,text,banner} = req.body
 
         if(!title || !text || !banner ){
@@ -13,7 +15,7 @@ const create = async (req,res) => {
             title,
             text,
             banner,
-            user:{_id: "63e55f03711c49a8c4219604"}
+            user:{_id: "63e55f03711c49a8c4219604"} // <- relacionando tabelas 
         })
         res.send(201)
 
@@ -22,21 +24,15 @@ const create = async (req,res) => {
     }
 }
 
-const findAll = async () => {
-    try {
-        const news = await findAllService();
-      if(news.length === 0){
+const findAll = async (req,res) => {
+  const news = await findAllService();
+  if (news.length === 0) {
+    return res.status(400).send({
+      message: "There are not registred News",
+    });
 
-       return res.status(400).send({
-        message:"There are not registred users"})
-    }
+}
     res.send(news);
-        
-    } catch (error) {
-        res.status(500).send({
-        message: err.message})
-    }
-       
 };
 
 module.exports = {create, findAll}
